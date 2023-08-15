@@ -1,25 +1,51 @@
-fn main() {
-    let mut user1 = User {
-        active: true,
-        username: String::from("someusername123"),
-        email: String::from("someone@example.com"),
-        sign_in_count: 1,
-    };
-
-    user1.email = String::from("anotheremail@example.com");
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
 }
 
-fn build_user(email: String, username: String) -> User {
-    User {
-        active: true,
-        username: username,
-        email: email,
-        sign_in_count: 1,
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+
+    fn square(size: u32) -> Self {
+        Self {
+            width: size,
+            height: size,
+        }
+    }
+
+    fn set_with(&mut self) {
+        self.width = 21;
+    }
+
+    fn get_with(&self) -> u32 {
+        self.width
     }
 }
-struct User {
-    active: bool,
-    username: String,
-    email: String,
-    sign_in_count: u64,
+
+fn main() {
+    // let mut rect1 = Rectangle {
+    //     width: 30,
+    //     height: 50,
+    // };
+
+    // println!(
+    //     "The area of the rectangle with width: {} is {} square pixels.",
+    //     rect1.get_with(),
+    //     rect1.area()
+    // );
+
+    // rect1.set_with();
+    // let square: Rectangle = Rectangle::square(12);
+    // println!(
+    //     "The area of the rectangle with width: {} is {} square pixels.",
+    //     rect1.get_with(),
+    //     rect1.area()
+    // );
 }
