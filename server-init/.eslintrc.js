@@ -7,8 +7,12 @@ module.exports = {
     plugins: ['@typescript-eslint/eslint-plugin'],
     "extends": "./tsconfig.json",
     // extends: ['prettier'],
-    "exclude": ["node_modules", "dist", "coverage"],
-    root: true,
+    overrides: [
+        {
+            files: ['**/*.js'],
+            excludedFiles: ["node_modules", "dist", "coverage"],
+        },
+    ],    root: true,
     env: {
         node: true,
         jest: true,
@@ -20,10 +24,10 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         'semi': ['error', 'always'],
         'semi-spacing': ['error', { 'before': false, 'after': true }],
-        "newline-before-return": "error",
+        'newline-before-return': 'error',
         'simple-import-sort/imports': 'error',
-        "no-unused-vars": "off",
+        'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
-        'indent': 'error'
+        'indent': 'error',
     }
 };
