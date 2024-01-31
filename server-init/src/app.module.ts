@@ -10,34 +10,33 @@ import { RolesGuard } from './core/guard/roles.guard';
 import { SeedsModule } from './seeds/seed.module';
 
 @Module({
-  imports: [
-    ConfigModule,
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: `${configService.get('DB_URL')}`,
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }),
-      inject: [ConfigService]
-    }),
-    AuthModule,
-    WinstonModule,
-    SeedsModule,
-  ],
-  controllers: [],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ],
+    imports: [
+        ConfigModule,
+        MongooseModule.forRootAsync({
+            imports: [ConfigModule],
+            useFactory: async (configService: ConfigService) => ({
+                uri: `${configService.get('DB_URL')}`,
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            }),
+            inject: [ConfigService],
+        }),
+        AuthModule,
+        WinstonModule,
+        SeedsModule,
+    ],
+    controllers: [],
+    providers: [
+        {
+            provide: APP_GUARD,
+            useClass: RolesGuard,
+        },
+    ],
 })
-
 export class AppModule {
-  static port: number | string;
-  constructor(private _configService: ConfigService) {
-    AppModule.port = this._configService.get('PORT');
-    console.log('AppModule.port', AppModule.port);
-  }
+    static port: number | string;
+    constructor(private _configService: ConfigService) {
+        AppModule.port = this._configService.get('PORT');
+        console.log('AppModule.port', AppModule.port);
+    }
 }

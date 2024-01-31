@@ -2,40 +2,45 @@ import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../core/enums/role.enum';
 
-export const UserSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        unique: true,
-        required: true
+export const UserSchema = new mongoose.Schema(
+    {
+        email: {
+            type: String,
+            unique: true,
+            required: true,
+        },
+        name: {
+            type: String,
+            unique: true,
+            required: true,
+        },
+        password: {
+            type: String,
+            required: true,
+        },
+        emailVerified: {
+            type: Boolean,
+            default: false,
+        },
+        roles: {
+            type: [],
+            default: [Role.User],
+        },
     },
-    name: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    emailVerified: {
-        type: Boolean,
-        default: false
-    },
-    roles: {
-        type: [],
-        default: [Role.User]
-    },
+    { timestamps: true },
+);
 
-}, { timestamps: true });
-
-export const TokenVerifyEmailSchema = new mongoose.Schema({
-    userId: {
-        type: String,
+export const TokenVerifyEmailSchema = new mongoose.Schema(
+    {
+        userId: {
+            type: String,
+        },
+        tokenVerifyEmail: {
+            type: String,
+        },
     },
-    tokenVerifyEmail: {
-        type: String,
-    }
-}, { timestamps: true });
+    { timestamps: true },
+);
 
 // NOTE: Arrow functions are not used here as we do not want to use lexical scope for 'this'
 UserSchema.pre('save', function (next) {
@@ -70,8 +75,7 @@ export interface User extends mongoose.Document {
     roles: Role[];
 }
 
-
 export interface TokenVerifyEmail extends mongoose.Document {
-    userId: string,
+    userId: string;
     tokenVerifyEmail: string;
 }

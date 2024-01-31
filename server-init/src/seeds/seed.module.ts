@@ -9,7 +9,7 @@ import { UserSeed } from './user.seed';
     imports: [
         MongooseModule.forFeature([
             { name: 'User', schema: UserSchema },
-            { name: 'TokenVerifyEmail', schema: TokenVerifyEmailSchema }
+            { name: 'TokenVerifyEmail', schema: TokenVerifyEmailSchema },
         ]),
         CommandModule,
     ],

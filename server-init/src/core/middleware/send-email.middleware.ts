@@ -3,7 +3,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class SendEmailMiddleware {
-    constructor(private mailerService: MailerService) { }
+    constructor(private mailerService: MailerService) {}
 
     sendEmail(email: string, token: string, attachmentsArray) {
         let subjectObject = {
@@ -18,10 +18,9 @@ export class SendEmailMiddleware {
                 html: subjectObject.subjectBody,
                 attachments: attachmentsArray,
             };
-            this.mailerService.sendMail(mailOptions)
-                .then((info) => {
-                    console.log('email sent', info)
-                });
+            this.mailerService.sendMail(mailOptions).then(info => {
+                console.log('email sent', info);
+            });
         } catch (error) {
             console.log('error', error);
         }

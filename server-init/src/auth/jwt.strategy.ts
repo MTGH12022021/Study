@@ -6,15 +6,17 @@ import { JwtPayload } from './jwt-payload.interface';
 import { ConfigService } from '../core/config/config.service';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-
-    constructor(private authService: AuthService, private configService: ConfigService) {
+    constructor(
+        private authService: AuthService,
+        private configService: ConfigService,
+    ) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: configService.get('JWT_SECRET'),
             ignoreExpiration: true,
         });
     }
-    
+
     async validate(payload: JwtPayload) {
         const user = await this.authService.validateUserByJwt(payload);
         if (!user) {
@@ -22,5 +24,4 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         }
         return { user: user };
     }
-
 }
