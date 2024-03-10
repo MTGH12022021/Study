@@ -52,6 +52,11 @@
 // }
 
 //todo enum
+#[derive(Debug, Clone)]
+struct User {
+    username: String,
+    email: String,
+}
 
 fn main() {
     #[derive(Debug)]
@@ -62,4 +67,14 @@ fn main() {
     }
     print!("{:?}", Phone::Iphone);
     print!("{:?}", Phone::SamSung(String::from("SamSung")));
+
+    let user1 = User {
+        username: String::from("user1"),
+        email: String::from("user1@gmail.com"),
+    };
+
+    let user2 = user1.clone();
+
+    println!("user1: {:?}", user1);
+    println!("user2: {:?}", user2);
 }
