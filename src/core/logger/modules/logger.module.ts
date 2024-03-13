@@ -1,38 +1,42 @@
 import { Global, Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import Logger, { LoggerBaseKey, LoggerKey } from './logger';
-import WinstonLogger, { WinstonLoggerTransportsKey } from '../infrastructure/winston/winstonLogger';
-import LoggerService from './logger.service';
+import Logger, { LoggerBaseKey, LoggerKey } from '../interfaces/logger.interface';
+import WinstonLogger, { WinstonLoggerTransportsKey } from '../../../utils/winston/winstonLogger';
+import LoggerService from '../services/logger.service';
 import NestjsLoggerServiceAdapter from './logger.adapter';
-import { ConfigService } from 'src/configs/service/config.service';
+import { ServiceConfig } from 'src/configs/service/service.config';
 import * as morgan from 'morgan';
-import ConsoleTransport from '../infrastructure/winston/consoleTransport';
+import ConsoleTransport from 'src/utils/winston/consoleTransport';
 
 @Global()
 @Module({
     imports: [],
     controllers: [],
     providers: [
+        // Logger base
         {
             provide: LoggerBaseKey,
             useClass: WinstonLogger,
         },
+        // Logger service
         {
             provide: LoggerKey,
             useClass: LoggerService,
         },
+        // Adapter for the logger
         {
             provide: NestjsLoggerServiceAdapter,
             useFactory: (logger: Logger) => new NestjsLoggerServiceAdapter(logger),
             inject: [LoggerKey],
         },
-
         {
             provide: WinstonLoggerTransportsKey,
-            useFactory: (configService: ConfigService) => {
+            useFactory: (configService: ServiceConfig) => {
                 const transports = [];
 
+                // add console transport
                 transports.push(ConsoleTransport.createColorize());
 
+                // TODO: Add file transport
                 // transports.push(FileTransport.create());
 
                 // if (configService.isProduction) {
@@ -43,7 +47,7 @@ import ConsoleTransport from '../infrastructure/winston/consoleTransport';
 
                 return transports;
             },
-            inject: [ConfigService],
+            inject: [ServiceConfig],
         },
     ],
     exports: [LoggerKey, NestjsLoggerServiceAdapter],
@@ -51,9 +55,10 @@ import ConsoleTransport from '../infrastructure/winston/consoleTransport';
 export class LoggerModule implements NestModule {
     public constructor(
         @Inject(LoggerKey) private logger: Logger,
-        private configService: ConfigService,
+        private configService: ServiceConfig,
     ) {}
 
+    // Configure the middleware
     public configure(consumer: MiddlewareConsumer): void {
         consumer
             .apply(

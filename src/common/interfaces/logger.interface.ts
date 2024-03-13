@@ -1,15 +1,4 @@
-/**
- * Defines the log levels, which are used to determine the severity of the log message.
- */
-
-export enum LogLevel {
-    INFO = 'info',
-    WARN = 'warn',
-    ERROR = 'error',
-    DEBUG = 'debug',
-    FATAL = 'fatal', // A person must take an action immediately
-    EMERGENCY = 'emergency', // One or more systems are unusable.
-}
+import { LogLevel } from 'src/common/enums/logger.enum';
 
 export interface Log {
     timestamp: number; // Unix timestamp

@@ -1,4 +1,4 @@
-import ContextStorageService from 'src/configs/context/domain/interfaces/contextStorage.service';
+import ContextStorageService from 'src/configs/context/interfaces/contextStorage.service';
 import { CLS_ID, ClsService } from 'nestjs-cls';
 import { Injectable } from '@nestjs/common';
 

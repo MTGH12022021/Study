@@ -5,8 +5,9 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 
-import appConfig from 'src/configs/app.config';
-import { ConfigService } from 'src/configs/service/config.service';
+import appConfig from 'src/configs/app/app.config';
+import mongoConfig from './database/mongo/mongo.config';
+import { ServiceConfig } from 'src/configs/service/service.config';
 
 @Global()
 @Module({
@@ -14,11 +15,11 @@ import { ConfigService } from 'src/configs/service/config.service';
         NestConfigModule.forRoot({
             envFilePath: ['.env'],
             isGlobal: true,
-            load: [appConfig],
+            load: [appConfig, mongoConfig],
         }),
     ],
     controllers: [],
-    providers: [ConfigService],
-    exports: [ConfigService],
+    providers: [ServiceConfig],
+    exports: [ServiceConfig],
 })
 export class ConfigsModule {}

@@ -1,11 +1,12 @@
 import { Inject, Injectable, Scope } from '@nestjs/common';
 import { INQUIRER } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import Logger, { LoggerBaseKey } from './logger';
+import Logger, { LoggerBaseKey } from '../interfaces/logger.interface';
 import ContextStorageService, {
     ContextStorageServiceKey,
-} from 'src/configs/context/domain/interfaces/contextStorage.service';
-import { LogData, LogLevel } from 'src/shared/enums/logger.enum';
+} from 'src/configs/context/interfaces/contextStorage.service';
+import { LogLevel } from 'src/common/enums/logger.enum';
+import { LogData } from 'src/common/interfaces/logger.interface';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export default class LoggerService implements Logger {
@@ -25,9 +26,9 @@ export default class LoggerService implements Logger {
         this.sourceClass = parentClass?.constructor?.name;
 
         // Set the organization, context and app from the environment variables
-        this.organization = configService.get<string>('ORGANIZATION');
-        this.context = configService.get<string>('CONTEXT');
-        this.app = configService.get<string>('APP');
+        this.organization = configService.get<string>('organization');
+        this.context = configService.get<string>('context');
+        this.app = configService.get<string>('app');
     }
 
     public log(level: LogLevel, message: string | Error, data?: LogData, profile?: string) {

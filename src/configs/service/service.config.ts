@@ -6,7 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 
 @Injectable()
-export class ConfigService {
+export class ServiceConfig {
     constructor(private configService: NestConfigService) {}
 
     get isProduction(): boolean {
@@ -19,10 +19,6 @@ export class ConfigService {
 
     get isTest(): boolean {
         return this.environment === 'test';
-    }
-
-    get slackWebhookUrl(): string {
-        return this.configService.get<string>('SLACK_INC_WEBHOOK_URL');
     }
 
     private get environment(): string {

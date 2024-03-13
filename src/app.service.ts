@@ -1,13 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
-import Logger, { LoggerKey } from './core/logger/domain/logger';
+import Logger, { LoggerKey } from './core/logger/interfaces/logger.interface';
+import { BadRequestException } from './common/exceptions/exceptions';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AppService {
-    constructor(@Inject(LoggerKey) private logger: Logger) {}
+    constructor(
+        @Inject(LoggerKey) private logger: Logger,
+        private configService: ConfigService<ConfigModule>,
+    ) {}
 
-    getHello(): string {
+    getHello(): object {
         this.logger.startProfile('getHello');
-        console.log('====> Debug <====');
+        const port = this.configService.get<number>('port');
+        this.logger.info('Port', { props: { port } });
         this.logger.info(
             'I am a debug message!',
             {
@@ -18,6 +24,10 @@ export class AppService {
             },
             'getHello',
         );
-        return 'Hello World!';
+
+        // throw new BadRequestException('Ngu');
+        return {
+            res: 'success',
+        };
     }
 }

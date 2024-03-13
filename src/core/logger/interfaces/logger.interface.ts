@@ -1,4 +1,5 @@
-import { LogLevel, LogData } from 'src/shared/enums/logger.enum';
+import { LogData } from 'src/common/interfaces/logger.interface';
+import { LogLevel } from 'src/common/enums/logger.enum';
 
 export const LoggerBaseKey = Symbol();
 export const LoggerKey = Symbol();
