@@ -13,7 +13,7 @@ export class AppService {
     getHello(): object {
         this.logger.startProfile('getHello');
         const port = this.configService.get<number>('port');
-        this.logger.info('Port', { props: { port } });
+        this.logger.error('Port', { props: { port } });
         this.logger.info(
             'I am a debug message!',
             {
@@ -25,7 +25,6 @@ export class AppService {
             'getHello',
         );
 
-        // throw new BadRequestException('Ngu');
         return {
             res: 'success',
         };
